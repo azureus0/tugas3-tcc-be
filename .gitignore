@@ -1,0 +1,4 @@
+node_modules/
+.env
+DEPLOYMENT.md
+README.MD

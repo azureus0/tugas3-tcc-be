@@ -1,0 +1,31 @@
+steps:
+  # Membuat image Docker backend dari folder backend.
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/$PROJECT_ID/notes-backend-123230170", "."]
+
+  # Meng-upload image backend ke Container Registry.
+  - name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/$PROJECT_ID/notes-backend-123230170"]
+
+  # Deploy backend Express.js ke Cloud Run.
+  - name: "gcr.io/cloud-builders/gcloud"
+    args:
+      [
+        "run",
+        "deploy",
+        "notes-backend-123230170",
+        "--image",
+        "gcr.io/$PROJECT_ID/notes-backend-123230170",
+        "--timeout",
+        "1000s",
+        "--port",
+        "5000",
+        "--region",
+        "us-central1",
+        "--allow-unauthenticated",
+        "--set-env-vars",
+        "DB_NAME=notes_123230170,DB_USER=admin,DB_PASS=mypassword,DB_HOST=34.172.113.167",
+      ]
+
+options:
+  logging: CLOUD_LOGGING_ONLY
