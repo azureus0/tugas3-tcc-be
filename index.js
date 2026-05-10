@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 // Import Package dan File
 const express = require("express");
 const sequelize = require("./config/database");
